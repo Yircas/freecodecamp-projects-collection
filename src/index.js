@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import {MainApp, QuoteBox} from './main.js';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <MainApp />
+    <QuoteBox/>
   </React.StrictMode>,
   document.getElementById('root')
 );
