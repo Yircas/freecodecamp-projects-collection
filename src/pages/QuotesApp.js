@@ -1,20 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import readCSV from './fetchData'
+import '../index'
+import readCSV from '../fetchData'
 
-class MainApp extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-    render() {
-        return (
+const QuotesApp = () => (
             <div>
                 <h1 className='text-primary text-center'>Random Anime Quotes</h1>
+                <QuoteBox />
             </div>
         )
-    }
-}
 
 class QuoteBox extends React.Component {
     constructor(props) {
@@ -37,8 +31,7 @@ class QuoteBox extends React.Component {
             .then((file) => {
                 console.log(file)
                 this.setState({data: file}, () => {
-                    console.log(this.state)
-
+                    console.log(this.state.data)
                     // get first quote upon loading the page
                     this.setRandomEntry()
                 })
@@ -46,7 +39,6 @@ class QuoteBox extends React.Component {
             .catch((error) => {
                 console.error('Error reading CSV:', error)
                 })
-        console.log(this.state)
         
     }
 
@@ -92,4 +84,6 @@ class QuoteBox extends React.Component {
     }
 }
 
-export {MainApp, QuoteBox}
+// ReactDOM.render(<QuotesApp />, document.getElementById('root'))
+
+export default QuotesApp
