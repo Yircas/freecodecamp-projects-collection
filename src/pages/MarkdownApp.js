@@ -53,7 +53,7 @@ class MarkdownApp extends React.Component {
       render() {
         return (
            <div>
-            <h1 className='text-primary text-center'>Markdown Previewer</h1>
+            <h1 className='text-primary text-center quote-h1'>Markdown Previewer</h1>
              <TextEditor
                input={this.state.input}
                handleInput={this.handleInput}/>

@@ -20,6 +20,7 @@ const Navigation = function() {
                 <ul class="dropdown-menu">
                   <li><Link class="dropdown-item" to="/quotesApp">Quotes-App</Link></li>
                   <li><Link class="dropdown-item" to="/markdownApp">Markdown-App</Link></li>
+                  <li><Link class="dropdown-item" to="/drumApp">Drum Machine</Link></li>
                 </ul>
               </li>
             </ul>
