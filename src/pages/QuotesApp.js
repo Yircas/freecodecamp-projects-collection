@@ -1,11 +1,10 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import '../index'
 import readCSV from '../fetchData'
 
 const QuotesApp = () => (
             <div>
-                <h1 className='text-primary text-center'>Random Anime Quotes</h1>
+                <h1 className='text-primary text-center quote-h1'>Random Anime Quotes</h1>
                 <QuoteBox />
             </div>
         )
@@ -64,7 +63,7 @@ class QuoteBox extends React.Component {
             <div id="quote-box" className="container d-flex flex-column align-items-center justify-content-center vh-100">
                 <div className="card shadow p-4 text-center bg-primary-subtle" style={{maxWidth: 600, width: '100%'}}>
                     <div className="card-body">
-                    <p id="text" className="card-text fs-4 fw-bold quote">"{this.state.text}"</p>
+                    <p id="text" className="card-text fs-4 fw-bold quote-p">"{this.state.text}"</p>
                     <p id="author" className="text-muted fst-italic mb-2">- {this.state.author}</p>
                     <p id="anime" className="text-secondary">From: {this.state.anime}</p>
                     <div className="d-grid gap-2 mt-3">

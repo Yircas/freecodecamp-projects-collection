@@ -15,7 +15,7 @@ code {
  /* <uniquifier>: Use a unique and descriptive class name */
  /* <weight>: Use a value from 400 to 900 */
 
-h1 {
+.quote-h1 {
   font-family: "Playfair Display", serif;
   font-optical-sizing: auto;
   font-weight: 400;
@@ -23,7 +23,7 @@ h1 {
   font-size: 50px;
 }
 
-.quote {
+.quote-p {
   font-family: "Playfair Display", serif;
   font-optical-sizing: auto;
   font-weight: 400;
