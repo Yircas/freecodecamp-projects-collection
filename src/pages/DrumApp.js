@@ -1,7 +1,6 @@
 import React from "react"
-import { act } from "react"
 
-const audio = [
+  const audio = [
     { desc: 'Heater 1', clip: 'https://cdn.freecodecamp.org/testable-projects-fcc/audio/Heater-1.mp3', key: 'Q' },
     { desc: 'Heater 2', clip: 'https://cdn.freecodecamp.org/testable-projects-fcc/audio/Heater-2.mp3', key: 'W' },
     { desc: 'Heater 3', clip: 'https://cdn.freecodecamp.org/testable-projects-fcc/audio/Heater-3.mp3', key: 'E' },
@@ -55,6 +54,8 @@ class DrumApp extends React.Component {
         if (button) {
             button.click()
         }
+        console.log('Key pressed: %s', key)
+        console.log('description %s', audio[0].desc)
     }
 
     
