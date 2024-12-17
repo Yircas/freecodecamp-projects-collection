@@ -23,13 +23,13 @@ const operations = [
 class CalculatorApp extends React.Component {
     constructor(props) {
         super(props)
-        this.state ={
+        this.state = {
             operations: operations,
-            input: "", // clicked element only
+            input: "0", // clicked element only
             expression: "", // concatenated input
-            output: null // evaluated expression
+            output: '', // optionally show error-message
+            newExpression: true
         }
-        this.update = this.update.bind(this)
     }
 
     componentDidMount() {
@@ -48,26 +48,92 @@ class CalculatorApp extends React.Component {
         console.log('Key pressed: %s', key)
     }
 
+    splitLastOperators(expression) {
+        const match = expression.match(/(.*?)([+\-*/]+)$/);
+      
+        if (match) {
+          return {
+            remainder: match[1], // everything before the operators
+            operators: match[2], // trailing operator sequence
+          };
+        }
+      
+        // If no trailing operators are found
+        return {
+          remainder: expression,
+          operators: '',
+        };
+      }
+
+    // Prevent invalid input concatenation
+    concatNum = (expression, input) => {
+        const lastNum = expression.split(/[+\-*/]/).pop()
+        if (input === "." && lastNum.includes(".")) return expression
+        if (input === "0" && (lastNum === "0" || lastNum === "")) return expression
+        return expression + input
+    }
+
+    concatOperator = (expression, input) => {
+        const split = this.splitLastOperators(expression)
+        // allow "*-" or "/-"
+        if (split.operators.length === 1) {
+            if (input === '-' && ('*/'.includes(split.operators))) {
+                split.operators = split.operators + input
+            }
+            else {
+                split.operators = input
+            }
+        }
+        // if no operator or more than one operator at the end, just replace with input
+        else {
+            split.operators = input
+        }
+        return split.remainder + split.operators
+    }
+
     update = (key, type) => {
-        if (type === 'num' || type === 'op') {
+        if ('0+*/'.includes(key) && this.state.newExpression && ! this.state.input) {
+            return
+        }
+        this.setState({output: ''})
+        if (type === 'num') {
             this.setState((prevState) => {
                 return {
-                    input: key, // clicked element only
-                    expression: prevState.expression.concat(key), // concatenated input
-                    output: null // evaluated expression
+                    input: this.state.newExpression ? key : this.concatNum(prevState.input, key), // show just operator or whole number
+                    expression: this.concatNum(prevState.expression, key),
+                    newExpression: false
+                }
+            })
+        }
+        else if (type === 'op') {
+            this.setState((prevState) => {
+                return {
+                    input: key,
+                    expression: this.state.newExpression ? prevState.input + key : this.concatOperator(prevState.expression, key), 
+                    newExpression: false
                 }
             })
         }
         else if (type === 'equals') {
-            this.setState({
-                output: eval(this.state.expression) // evaluated expression
-            })
+            try {
+                this.setState({
+                    expression: '', // reset
+                    input: eval(this.state.expression), // reset
+                    newExpression: true // reset
+                })
+            }
+            catch {
+                this.setState({
+                    output: 'INVALID',
+                })
+            }
         }
-        else if (type === 'delete') {
+        else if (type === 'clear') {
             this.setState({
-                input: null, // clicked element only
-                expression: null, // concatenated input
-                output: null // evaluated expression
+                input: '0', // reset
+                expression: '', // reset
+                output: '', // reset
+                newExpression: true // reset
             })
         }
     }
@@ -79,9 +145,9 @@ class CalculatorApp extends React.Component {
                     <h1 className="text-primary">Calculator</h1>
                     <div className="card shadow p-4 bg-primary-subtle" style={{maxWidth: 600, width: '100%'}}>
                         <div className="card-body">
-                            <p id="input" className="fs-4">{this.state.input}</p>
+                            <p id="display" className="fs-4">{this.state.input}</p>
                             <textarea id="expression" className="form-control bg-light" rows="1" readOnly value={this.state.expression} style={{resize: "none"}}></textarea>
-                            <p id="output" className="text-secondary">={this.state.output}</p>
+                            <p id="output" className="text-secondary">{this.state.output}</p>
                         </div>
                     </div>
                 </div>
@@ -99,10 +165,6 @@ class Board extends React.Component {
         }
     }
 
-    handleButton(key, type) {
-        this.props.update(key, type)
-      }
-    
     render() {
         const drumPads = this.props.operations.map(i => 
         <button 
@@ -110,7 +172,7 @@ class Board extends React.Component {
         key={i.key} 
         className={`btn btn-outline-primary m-2 drum-pad`}
         style={{ width: '80px', height: '80px' }} 
-        onClick={() => this.handleButton(i.key, i.type)}>
+        onClick={() => this.props.update(i.key, i.type)}>
             {i.key}
             <audio id={i.key} src={i.clip} className='clip' />
         </button>);
