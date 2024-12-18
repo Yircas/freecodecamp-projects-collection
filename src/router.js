@@ -5,6 +5,7 @@ import QuotesApp from './pages/QuotesApp';
 import MarkdownApp from './pages/MarkdownApp'
 import DrumApp from './pages/DrumApp';
 import CalculatorApp from './pages/CalculatorApp';
+import ClockApp from './pages/ClockApp';
 import Layout from './components/Layout';
 
 // Define routes
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
             { path: 'markdownApp', element: <MarkdownApp /> },
             { path: 'drumApp', element: <DrumApp /> },
             { path: 'calculatorApp', element: <CalculatorApp /> },
+            { path: 'clockApp', element: <ClockApp /> },
             ],
     },
 ]);
