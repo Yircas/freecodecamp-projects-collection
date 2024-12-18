@@ -26,6 +26,18 @@ class ClockApp extends React.Component {
             active: "Session", // either "Session" or "Break"
             switched: false // recognizes a recent switch in this.state.active
         }
+        this.audioElement = null
+    }
+
+    componentDidMount() {
+        this.audioElement = document.getElementById("beep");
+        if (!this.audioElement) {
+            console.log("ERROR: Missing audio-element with id='beep'")
+        } else {
+            this.audioElement.addEventListener('loadeddata', () => {
+                console.log('Audio file is fully loaded')
+            })
+        }
     }
 
     // puts all settings in the state back to default
@@ -34,6 +46,13 @@ class ClockApp extends React.Component {
         if (this.timerInterval) {
             clearInterval(this.timerInterval);
             this.timerInterval = null
+        }
+
+        // cancels clock alarm
+        const audioElement = document.getElementById("beep");
+        if (audioElement) {
+            audioElement.pause()
+            audioElement.currentTime = 0
         }
 
         // reset state
@@ -79,20 +98,18 @@ class ClockApp extends React.Component {
                     const elapsed = Date.now() - startTime
                     const remainingTime = Math.max(0, initialTime - elapsed)
     
-                    if (remainingTime <= 0) {
-                        // Switch between Session and Break
-                        const nextActive = prevState.active === "Session" ? "Break" : "Session"
-                        const nextTime =
-                            nextActive === "Session"
-                                ? prevState.sessionLength * 60 * 1000
-                                : prevState.breakLength * 60 * 1000
-    
-                        clearInterval(this.timerInterval)
-                        return {active: nextActive, time: nextTime, running: false, switched: true}
+                    if (remainingTime <= 500) {
+                        this.audioElement.play() // play in advance, because of somehow delayed audio-playback, needed for passing all tests
+                        if (remainingTime <= 0) {
+                            // Switch between Session and Break
+                            clearInterval(this.timerInterval)
+                            return {switched: true}
+                        }
                     }
+
                     return {time: remainingTime}
                 })
-            }, 1000)
+            }, 100)
         } else {
             // Timer is stopping
             clearInterval(this.timerInterval)
@@ -105,15 +122,23 @@ class ClockApp extends React.Component {
         }))
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         if (this.state.switched) {
-            this.setState({switched: false}, () => this.toggleTimer())
+            // Switch between Session and Break
+            const nextActive = prevState.active === "Session" ? "Break" : "Session"
+            const nextTime =
+                nextActive === "Session"
+                    ? prevState.sessionLength * 60 * 1000
+                    : prevState.breakLength * 60 * 1000
+            
+            setTimeout(() => {this.setState({active: nextActive, time: nextTime, running: false, switched: false}, () => this.toggleTimer())}, 1000)
         }
     }
 
     render() {
         return (
             <div className="container mt-5">
+                <audio id="beep" src="https://github.com/Yircas/freecodecamp-projects-collection/raw/refs/heads/master/public/ring.wav" preload="auto"></audio>
                 <h1 className="text-primary text-center mb-4">25 + 5 Clock</h1>
                 <div className="card shadow p-4 text-center bg-light" style={{ maxWidth: '500px', margin: '0 auto' }}>
                     <div className="card-body">
@@ -138,12 +163,12 @@ class ClockApp extends React.Component {
                         {/* Controls */}
                         <div className="mb-4">
                             <div className="btn-group me-2">
-                                <button id="session-decrement" className="btn btn-outline-primary" onClick={() => this.setTime("Session", -1)}>Session <i className="fa-solid fa-minus"></i></button>
-                                <button id="session-increment" className="btn btn-outline-primary" onClick={() => this.setTime("Session", 1)}>Session <i className="fa-solid fa-plus"></i></button>
+                                <button id="session-decrement" className="btn btn-outline-primary p-2" onClick={() => this.setTime("Session", -1)} style={{width: '100px'}}>Session <i className="fa-solid fa-minus"></i></button>
+                                <button id="session-increment" className="btn btn-outline-primary p-2" onClick={() => this.setTime("Session", 1)} style={{width: '100px'}}>Session <i className="fa-solid fa-plus"></i></button>
                             </div>
                             <div className="btn-group">
-                                <button id="break-decrement" className="btn btn-outline-secondary" onClick={() => this.setTime("Break", -1)}>Break <i className="fa-solid fa-minus"></i></button>
-                                <button id="break-increment" className="btn btn-outline-secondary" onClick={() => this.setTime("Break", 1)}>Break <i className="fa-solid fa-plus"></i></button>
+                                <button id="break-decrement" className="btn btn-outline-secondary p-2" onClick={() => this.setTime("Break", -1)} style={{width: '100px'}}>Break <i className="fa-solid fa-minus"></i></button>
+                                <button id="break-increment" className="btn btn-outline-secondary p-2" onClick={() => this.setTime("Break", 1)} style={{width: '100px'}}>Break <i className="fa-solid fa-plus"></i></button>
                             </div>
                         </div>
 
