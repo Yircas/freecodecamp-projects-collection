@@ -80,7 +80,7 @@ class Display extends React.Component {
     render() {
         return (
             <div className="container d-flex flex-column align-items-center">
-                <div className="card shadow p-4 text-center bg-primary-subtle" style={{width: '100%'}}>
+                <div className="card shadow p-4 text-center bg-primary-subtle" style={{maxWidth: 400, width: '100%'}}>
                     <div className="card-body">
                             <h4>Now Playing:</h4>
                             <p id='display' className="text-secondary">{this.props.audio_desc || 'Press a button to play!'}</p>
