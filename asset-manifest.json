@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/freecodecamp-projects-collection/static/css/main.1b84129b.css",
+    "main.js": "/freecodecamp-projects-collection/static/js/main.279ce6f6.js",
+    "static/js/453.bf5e4234.chunk.js": "/freecodecamp-projects-collection/static/js/453.bf5e4234.chunk.js",
+    "index.html": "/freecodecamp-projects-collection/index.html",
+    "main.1b84129b.css.map": "/freecodecamp-projects-collection/static/css/main.1b84129b.css.map",
+    "main.279ce6f6.js.map": "/freecodecamp-projects-collection/static/js/main.279ce6f6.js.map",
+    "453.bf5e4234.chunk.js.map": "/freecodecamp-projects-collection/static/js/453.bf5e4234.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1b84129b.css",
+    "static/js/main.279ce6f6.js"
+  ]
+}
