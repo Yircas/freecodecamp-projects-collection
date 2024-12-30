@@ -2,6 +2,8 @@ import React from "react"
 import DOMPurify from "dompurify"
 import { marked } from "marked"
 
+const baseURL = "/freecodecamp-projects-collection"
+
 marked.use({
     gfm: true,
     breaks: true
@@ -29,7 +31,7 @@ class MarkdownApp extends React.Component {
 
       componentDidMount() {
         // fetch example markdown
-            fetch('/data/example.md')
+        fetch(`${baseURL}/data/example.md`)
         .then((response) => {
             if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

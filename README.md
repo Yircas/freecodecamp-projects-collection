@@ -1,5 +1,3 @@
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
-
 # FreeCodeCamp Projects Collection
 This Repository hosts my solutions for the [Front End Development Libraries Course](https://www.freecodecamp.org/learn/front-end-development-libraries/) on [freeCodeCamp](https://www.freecodecamp.org/). The five challenges include a:
 - 💬 Random Quotes Generator ([Dataset from Kaggle](https://www.kaggle.com/datasets/tarundalal/anime-quotes))
@@ -16,5 +14,4 @@ Make sure you have [node.js](https://nodejs.org/en) installed with npm.
 2. Run ```npm start``` to run the app in development mode.
 3. Open [http://localhost:3000](http://localhost:3000) in your Javascript-compatible Browser and navigate to the different projects at the top.
 
-## Example Project
-![Clock App Example](https://raw.githubusercontent.com/Yircas/freecodecamp-projects-collection/master/example.PNG)
+**Check out the working project [here](https://yircas.github.io/freecodecamp-projects-collection/)!**
