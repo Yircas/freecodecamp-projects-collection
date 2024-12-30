@@ -11,7 +11,7 @@ import Layout from './components/Layout';
 // Define routes
 const router = createBrowserRouter([
     {
-        path: '/',
+        path: 'freecodecamp-projects-collection/',
         element: <Layout />, // This uses the Layout component
         children: [
             { path: '', element: <Home /> },
